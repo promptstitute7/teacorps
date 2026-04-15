@@ -22,7 +22,9 @@ export default function AdminDashboard() {
   useEffect(() => {
     if (!token) return;
     Promise.all([adminApi.getMetrics(token), staffApi.getLeaderboard(token)])
-      .then(([m, lb]) => { setMetrics(m); setLeaderboard(lb.slice(0, 5)); setLoading(false); });
+      .then(([m, lb]) => { setMetrics(m); setLeaderboard(lb.slice(0, 5)); })
+      .catch(console.error)
+      .finally(() => setLoading(false));
     const interval = setInterval(() => adminApi.getMetrics(token).then(setMetrics), 60000);
     return () => clearInterval(interval);
   }, [token]);

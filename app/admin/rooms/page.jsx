@@ -18,7 +18,7 @@ export default function AdminRoomsPage() {
 
   useEffect(() => {
     if (!token) return;
-    adminApi.getRooms(token).then((data) => { setRooms(data); setLoading(false); });
+    adminApi.getRooms(token).then((data) => { setRooms(data); }).catch(console.error).finally(() => setLoading(false));
   }, [token]);
 
   async function handleCreate(e) {

@@ -25,7 +25,7 @@ export default function AdminStaffPage() {
 
   useEffect(() => {
     if (!token) return;
-    adminApi.getStaff(token).then((data) => { setStaffList(data); setLoading(false); });
+    adminApi.getStaff(token).then((data) => { setStaffList(data); }).catch(console.error).finally(() => setLoading(false));
   }, [token]);
 
   async function handleCreate(e) {

@@ -25,8 +25,7 @@ export default function AdminSettingsPage() {
       const map = {};
       data.forEach((s) => { map[s.category] = s.slaMinutes; });
       setSla(map);
-      setLoading(false);
-    });
+    }).catch(console.error).finally(() => setLoading(false));
   }, [token]);
 
   async function handleSave(e) {
