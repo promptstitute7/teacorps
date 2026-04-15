@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Environment variables (NEVER commit these)
+.env.local
+.env*.local
+
+# Prisma generated
+prisma/generated/
+
+# OS
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*

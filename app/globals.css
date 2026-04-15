@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700&display=swap');
+
+/* ─────────────────────────────────────────────
+   LIGHT THEME — "The Ivory Steep" (6am–6pm)
+   RGB channels for Tailwind opacity-modifier support
+   ───────────────────────────────────────────── */
+:root,
+[data-theme="light"] {
+  --c-background:           251 249 244;
+  --c-surface:              255 255 255;
+  --c-surface-lowest:       255 255 255;
+  --c-surface-low:          245 243 238;
+  --c-surface-container:    240 238 233;
+  --c-surface-high:         234 232 227;
+  --c-surface-highest:      228 226 221;
+  --c-primary:              123 88 8;
+  --c-primary-container:    212 168 85;
+  --c-on-primary:           255 255 255;
+  --c-on-primary-container: 88 61 0;
+  --c-on-surface:           27 28 25;
+  --c-on-surface-variant:   78 70 56;
+  --c-outline:              128 118 102;
+  --c-outline-variant:      210 197 178;
+  --c-error:                186 26 26;
+  --c-error-container:      255 218 214;
+  --c-on-error:             255 255 255;
+  --c-on-error-container:   147 0 10;
+  --c-secondary:            114 91 47;
+  --c-secondary-container:  255 222 167;
+  --c-on-secondary-container: 121 97 53;
+  --c-secondary-fixed-dim:  225 194 142;
+  --c-tertiary:             92 97 77;
+  --c-tertiary-container:   172 177 154;
+  --c-tertiary-fixed:       224 229 204;
+  --c-inverse-primary:      238 192 106;
+  --scrollbar-track: #f0eee9;
+  --scrollbar-thumb: #d2c5b2;
+}
+
+/* ─────────────────────────────────────────────
+   DARK THEME — "The Midnight Concierge" (6pm–6am)
+   ───────────────────────────────────────────── */
+[data-theme="dark"] {
+  --c-background:           19 19 19;
+  --c-surface:              28 27 27;
+  --c-surface-lowest:       28 27 27;
+  --c-surface-low:          28 27 27;
+  --c-surface-container:    37 37 36;
+  --c-surface-high:         45 44 44;
+  --c-surface-highest:      53 52 52;
+  --c-primary:              233 193 118;
+  --c-primary-container:    197 160 89;
+  --c-on-primary:           65 45 0;
+  --c-on-primary-container: 212 168 85;
+  --c-on-surface:           229 226 225;
+  --c-on-surface-variant:   160 144 128;
+  --c-outline:              110 99 88;
+  --c-outline-variant:      78 70 57;
+  --c-error:                255 68 68;
+  --c-error-container:      60 20 20;
+  --c-on-error:             255 255 255;
+  --c-on-error-container:   255 180 180;
+  --c-secondary:            197 160 89;
+  --c-secondary-container:  92 69 24;
+  --c-on-secondary-container: 255 222 167;
+  --c-secondary-fixed-dim:  197 160 89;
+  --c-tertiary:             196 201 177;
+  --c-tertiary-container:   92 97 77;
+  --c-tertiary-fixed:       92 97 77;
+  --c-inverse-primary:      123 88 8;
+  --scrollbar-track: #1c1b1b;
+  --scrollbar-thumb: #353534;
+}
+
+/* ─────────────────────────────────────────────
+   BASE
+   ───────────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: rgb(var(--c-background));
+  color: rgb(var(--c-on-surface));
+  font-family: 'Manrope', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.8s ease, color 0.5s ease;
+  min-height: 100dvh;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Noto Serif', Georgia, serif;
+}
+
+/* ─────────────────────────────────────────────
+   MATERIAL SYMBOLS
+   ───────────────────────────────────────────── */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+  font-size: 24px;
+  line-height: 1;
+}
+
+/* ─────────────────────────────────────────────
+   UTILITIES
+   ───────────────────────────────────────────── */
+.glass-nav {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-panel {
+  background: rgba(251, 249, 244, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+[data-theme="dark"] .glass-panel {
+  background: rgba(28, 27, 27, 0.85);
+}
+
+.ghost-border {
+  border: 1px solid rgba(210, 197, 178, 0.15);
+}
+
+[data-theme="dark"] .ghost-border {
+  border: 1px solid rgba(78, 70, 57, 0.25);
+}
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ─────────────────────────────────────────────
+   SCROLLBAR
+   ───────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 2px; }
+
+/* ─────────────────────────────────────────────
+   ANIMATIONS
+   ───────────────────────────────────────────── */
+@keyframes slideInTop {
+  from { transform: translateY(-20px); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+.animate-slideInTop { animation: slideInTop 0.3s ease-out; }
+.slide-in           { animation: slideInTop 0.3s ease-out; }
+
+@keyframes emergencyPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.4); }
+  50%     { box-shadow: 0 0 0 12px rgba(255, 68, 68, 0); }
+}
+.emergency-pulse { animation: emergencyPulse 1.5s infinite; }

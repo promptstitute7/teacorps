@@ -1,0 +1,184 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Room {
+  id           String   @id @default(uuid())
+  roomNumber   String   @unique @map("room_number")
+  floor        Int?
+  roomType     String?  @map("room_type")
+  qrToken      String   @unique @map("qr_token")
+  qrUrl        String?  @map("qr_url")
+  qrImageUrl   String?  @map("qr_image_url")
+  isActive     Boolean  @default(true) @map("is_active")
+  healthScore  Int      @default(100) @map("health_score")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  reservations Reservation[]
+  tickets      Ticket[]
+
+  @@map("rooms")
+}
+
+model Guest {
+  id           String   @id @default(uuid())
+  name         String?
+  phone        String?  @unique
+  email        String?
+  stayflexiId  String?  @map("stayflexi_id")
+  preferences  Json     @default("{}")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  reservations Reservation[]
+  tickets      Ticket[]
+
+  @@map("guests")
+}
+
+model Reservation {
+  id               String    @id @default(uuid())
+  stayflexiResId   String?   @unique @map("stayflexi_res_id")
+  roomId           String    @map("room_id")
+  guestId          String    @map("guest_id")
+  checkInDate      DateTime  @map("check_in_date")
+  checkOutDate     DateTime  @map("check_out_date")
+  checkedInAt      DateTime? @map("checked_in_at")
+  checkedOutAt     DateTime? @map("checked_out_at")
+  status           String    @default("upcoming")
+  whatsappSent     Boolean   @default(false) @map("whatsapp_sent")
+  createdAt        DateTime  @default(now()) @map("created_at")
+
+  room    Room    @relation(fields: [roomId], references: [id])
+  guest   Guest   @relation(fields: [guestId], references: [id])
+  tickets Ticket[]
+  nudgeLogs NudgeLog[]
+
+  @@map("reservations")
+}
+
+model Staff {
+  id            String   @id @default(uuid())
+  name          String
+  phone         String?
+  email         String   @unique
+  passwordHash  String   @map("password_hash")
+  role          String   // staff | manager | admin
+  department    String?  // housekeeping | maintenance | reception | all
+  isActive      Boolean  @default(true) @map("is_active")
+  avatarUrl     String?  @map("avatar_url")
+  totalResolved Int      @default(0) @map("total_resolved")
+  avgRating     Float    @default(0.0) @map("avg_rating")
+  streakDays    Int      @default(0) @map("streak_days")
+  badges        Json     @default("[]")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  assignedTickets Ticket[]      @relation("AssignedTickets")
+  ticketEvents    TicketEvent[]
+
+  @@map("staff")
+}
+
+model Ticket {
+  id               String    @id @default(uuid())
+  ticketNumber     String    @unique @map("ticket_number")
+  roomId           String    @map("room_id")
+  reservationId    String?   @map("reservation_id")
+  guestId          String?   @map("guest_id")
+  category         String    // room_service | housekeeping | maintenance | front_desk | emergency
+  subcategory      String?
+  description      String?
+  items            Json?
+  priority         String    @default("medium") // low | medium | high | emergency
+  status           String    @default("new") // new | acknowledged | in_progress | completed | cancelled | escalated
+  assignedTo       String?   @map("assigned_to")
+  sentiment        String?   // positive | neutral | frustrated | angry
+  sentimentScore   Float?    @map("sentiment_score")
+  slaDeadline      DateTime? @map("sla_deadline")
+  escalatedAt      DateTime? @map("escalated_at")
+  escalationCount  Int       @default(0) @map("escalation_count")
+  completedAt      DateTime? @map("completed_at")
+  guestRating      Int?      @map("guest_rating")
+  guestFeedback    String?   @map("guest_feedback")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  room         Room?        @relation(fields: [roomId], references: [id])
+  reservation  Reservation? @relation(fields: [reservationId], references: [id])
+  guest        Guest?       @relation(fields: [guestId], references: [id])
+  assignedStaff Staff?      @relation("AssignedTickets", fields: [assignedTo], references: [id])
+  events       TicketEvent[]
+
+  @@map("tickets")
+}
+
+model TicketEvent {
+  id         String   @id @default(uuid())
+  ticketId   String   @map("ticket_id")
+  eventType  String   @map("event_type") // created | acknowledged | assigned | status_changed | escalated | completed | rated
+  actorId    String?  @map("actor_id")
+  actorType  String?  @map("actor_type") // guest | staff | system
+  oldValue   String?  @map("old_value")
+  newValue   String?  @map("new_value")
+  note       String?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  ticket Ticket  @relation(fields: [ticketId], references: [id])
+  staff  Staff?  @relation(fields: [actorId], references: [id])
+
+  @@map("ticket_events")
+}
+
+model AiConciergeLog {
+  id            String   @id @default(uuid())
+  roomId        String   @map("room_id")
+  reservationId String?  @map("reservation_id")
+  message       String
+  response      String
+  tokensUsed    Int?     @map("tokens_used")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@map("ai_concierge_logs")
+}
+
+model LocalInfo {
+  id            String   @id @default(uuid())
+  category      String   // medical | food | transport | shopping | explore | atm | travel
+  name          String
+  description   String?
+  address       String?
+  phone         String?
+  googleMapsUrl String?  @map("google_maps_url")
+  distanceNote  String?  @map("distance_note")
+  isActive      Boolean  @default(true) @map("is_active")
+  sortOrder     Int      @default(0) @map("sort_order")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@map("local_info")
+}
+
+model NudgeLog {
+  id            String   @id @default(uuid())
+  reservationId String   @map("reservation_id")
+  nudgeType     String   @map("nudge_type") // checkin_welcome | lunch_nudge | checkout_prompt | review_nudge
+  channel       String   // whatsapp | sms | push
+  status        String   // sent | failed | opted_out
+  sentAt        DateTime @default(now()) @map("sent_at")
+
+  reservation Reservation @relation(fields: [reservationId], references: [id])
+
+  @@map("nudge_log")
+}
+
+model SlaSettings {
+  id          String   @id @default(uuid())
+  category    String   @unique // room_service | housekeeping | maintenance | front_desk | emergency
+  slaMinutes  Int      @map("sla_minutes")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("sla_settings")
+}
