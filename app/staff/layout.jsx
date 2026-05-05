@@ -45,7 +45,7 @@ export default function StaffLayout({ children }) {
             <button onClick={() => setDrawerOpen(true)} className="text-primary hover:opacity-80 transition-opacity">
               <span className="material-symbols-outlined text-2xl">menu</span>
             </button>
-            <span className="text-2xl font-serif tracking-widest text-primary">TEA CORP</span>
+            <img src="/logo.jpg" alt="Tea Corps" className="h-9 w-9 object-contain" />
           </div>
           <div className="flex items-center gap-4">
             <button
@@ -75,7 +75,7 @@ export default function StaffLayout({ children }) {
         {/* Header */}
         <div className="p-6 border-b border-outline-variant/15">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-xl font-serif tracking-widest text-primary">TEA CORP</span>
+            <img src="/logo.jpg" alt="Tea Corps" className="h-8 w-8 object-contain" />
             <button onClick={() => setDrawerOpen(false)} className="text-on-surface-variant hover:text-on-surface transition-colors">
               <span className="material-symbols-outlined">close</span>
             </button>

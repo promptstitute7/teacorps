@@ -32,7 +32,7 @@ export default function StaffLogin() {
 
       {/* Logo */}
       <div className="mb-12 text-center">
-        <h1 className="text-3xl font-serif tracking-widest text-primary uppercase mb-1">TEA CORP</h1>
+        <img src="/logo.jpg" alt="Tea Corps" className="w-20 h-20 object-contain mx-auto mb-3" />
         <p className="text-[10px] font-label tracking-[0.2em] text-on-surface-variant uppercase">Staff Portal</p>
       </div>
 

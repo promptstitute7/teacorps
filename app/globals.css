@@ -10,35 +10,41 @@
    ───────────────────────────────────────────── */
 :root,
 [data-theme="light"] {
-  --c-background:           251 249 244;
+  /* Off-white base */
+  --c-background:           250 250 248;
   --c-surface:              255 255 255;
   --c-surface-lowest:       255 255 255;
-  --c-surface-low:          245 243 238;
-  --c-surface-container:    240 238 233;
-  --c-surface-high:         234 232 227;
-  --c-surface-highest:      228 226 221;
-  --c-primary:              123 88 8;
-  --c-primary-container:    212 168 85;
+  --c-surface-low:          245 248 245;
+  --c-surface-container:    238 244 239;
+  --c-surface-high:         230 238 231;
+  --c-surface-highest:      220 232 222;
+  /* Soft green primary */
+  --c-primary:              61 109 75;
+  --c-primary-container:    168 213 181;
   --c-on-primary:           255 255 255;
-  --c-on-primary-container: 88 61 0;
-  --c-on-surface:           27 28 25;
-  --c-on-surface-variant:   78 70 56;
-  --c-outline:              128 118 102;
-  --c-outline-variant:      210 197 178;
+  --c-on-primary-container: 20 60 32;
+  /* Neutral text */
+  --c-on-surface:           28 32 28;
+  --c-on-surface-variant:   72 85 73;
+  --c-outline:              120 140 122;
+  --c-outline-variant:      196 218 198;
+  /* Error */
   --c-error:                186 26 26;
   --c-error-container:      255 218 214;
   --c-on-error:             255 255 255;
   --c-on-error-container:   147 0 10;
-  --c-secondary:            114 91 47;
-  --c-secondary-container:  255 222 167;
-  --c-on-secondary-container: 121 97 53;
-  --c-secondary-fixed-dim:  225 194 142;
-  --c-tertiary:             92 97 77;
-  --c-tertiary-container:   172 177 154;
-  --c-tertiary-fixed:       224 229 204;
-  --c-inverse-primary:      238 192 106;
-  --scrollbar-track: #f0eee9;
-  --scrollbar-thumb: #d2c5b2;
+  /* Gold/beige secondary */
+  --c-secondary:            160 128 64;
+  --c-secondary-container:  240 220 170;
+  --c-on-secondary-container: 90 68 10;
+  --c-secondary-fixed-dim:  210 180 110;
+  /* Tertiary */
+  --c-tertiary:             100 110 95;
+  --c-tertiary-container:   190 205 185;
+  --c-tertiary-fixed:       225 235 220;
+  --c-inverse-primary:      140 200 160;
+  --scrollbar-track: #eef4ef;
+  --scrollbar-thumb: #c4dac6;
 }
 
 /* ─────────────────────────────────────────────
@@ -95,7 +101,7 @@ body {
 }
 
 h1, h2, h3, h4, h5 {
-  font-family: 'Noto Serif', Georgia, serif;
+  font-family: 'Manrope', system-ui, sans-serif;
 }
 
 /* ─────────────────────────────────────────────

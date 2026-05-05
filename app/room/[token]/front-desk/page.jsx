@@ -7,14 +7,13 @@ import Spinner from '@/components/ui/Spinner';
 import Link from 'next/link';
 
 const OPTIONS = [
-  { id: 'luggage_up',     label: 'Luggage assistance (bring up)', icon: 'luggage' },
-  { id: 'luggage_down',   label: 'Luggage to lobby',              icon: 'elevator' },
+  { id: 'wifi_help',      label: 'WiFi help',                     icon: 'wifi' },
+  { id: 'luggage_up',     label: 'Luggage assistance',            icon: 'luggage' },
   { id: 'early_checkout', label: 'Early checkout',                icon: 'logout' },
   { id: 'late_checkout',  label: 'Late checkout request',         icon: 'more_time' },
-  { id: 'invoice',        label: 'Request invoice / bill copy',   icon: 'receipt_long' },
-  { id: 'parking',        label: 'Parking assistance',            icon: 'local_parking' },
+  { id: 'invoice',        label: 'Request invoice / bill',        icon: 'receipt_long' },
   { id: 'airport_cab',    label: 'Airport cab booking',           icon: 'local_taxi' },
-  { id: 'other',          label: 'Other request',                 icon: 'chat_bubble' },
+  { id: 'other',          label: 'Any special request',           icon: 'chat_bubble' },
 ];
 
 function GuestNav({ token, active }) {

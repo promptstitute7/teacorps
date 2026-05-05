@@ -21,11 +21,13 @@ export default function RoomServicePage() {
   const [ticket, setTicket] = useState(null);
 
   useEffect(() => {
-    guestApi.getMenu(token).then((data) => {
-      setMenu(data.categories);
-      setActiveCategory(data.categories[0]?.id);
-      setLoading(false);
-    });
+    guestApi.getMenu(token)
+      .then((data) => {
+        setMenu(data.categories);
+        setActiveCategory(data.categories[0]?.id);
+      })
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }, [token]);
 
   function addItem(item) {
@@ -93,10 +95,24 @@ export default function RoomServicePage() {
       {step === 0 && (
         <>
           <section className="px-6 pt-6 pb-4">
-            <h1 className="font-serif text-3xl text-on-surface tracking-tight mb-2 italic">Curated Indulgence</h1>
-            <p className="text-on-surface-variant text-sm font-light leading-relaxed max-w-[80%]">
-              A collection of Bangalore's finest textures and global culinary artistry, delivered to your door.
+            <h1 className="font-serif text-3xl text-on-surface tracking-tight mb-2 italic">Room Service</h1>
+            <p className="text-on-surface-variant text-sm font-light leading-relaxed mb-4">
+              Hotel Tea Square — freshly prepared to your door.
             </p>
+            {/* Menu rules */}
+            <div className="bg-primary/5 border border-primary/15 rounded-xl px-4 py-3 space-y-1">
+              {[
+                { icon: 'schedule',      text: 'Allow 45 minutes preparation time' },
+                { icon: 'restaurant',    text: 'Alacarte orders: 6 PM – 8 PM only' },
+                { icon: 'lunch_dining',  text: 'Order by 12 PM for lunch, 6 PM for dinner' },
+                { icon: 'info',          text: 'Inform us of any allergies when ordering' },
+              ].map((r) => (
+                <div key={r.text} className="flex items-center gap-2 text-xs text-primary/80">
+                  <span className="material-symbols-outlined text-sm">{r.icon}</span>
+                  <span>{r.text}</span>
+                </div>
+              ))}
+            </div>
           </section>
 
           {/* Category Tabs */}
@@ -119,48 +135,42 @@ export default function RoomServicePage() {
           </nav>
 
           {/* Items */}
-          <section className="px-6 grid grid-cols-1 gap-8">
-            {activeItems.map((item, idx) => (
-              <div key={item.id} className="group relative overflow-hidden rounded-xl bg-surface-container-lowest shadow-ambient-sm border border-outline-variant/10">
-                {idx === 0 ? (
-                  <div className="aspect-[4/5] overflow-hidden bg-surface-container" />
-                ) : (
-                  <div className="aspect-[16/9] overflow-hidden bg-surface-container" />
-                )}
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-serif text-xl text-on-surface">{item.name}</h3>
-                    <span className="font-serif text-lg text-primary">₹{item.price}</span>
+          <section className="px-6 grid grid-cols-1 gap-3">
+            {activeItems.map((item) => (
+              <div key={item.id} className="flex items-center justify-between gap-4 px-4 py-4 rounded-xl bg-white border border-outline-variant/20">
+                <div className="flex-1">
+                  <div className="flex justify-between items-start mb-1">
+                    <h3 className="font-semibold text-sm text-on-surface">{item.name}</h3>
+                    <span className="font-bold text-sm text-primary ml-2 shrink-0">₹{item.price}</span>
                   </div>
                   {item.description && (
-                    <p className="text-on-surface-variant text-sm leading-relaxed mb-6">{item.description}</p>
-                  )}
-                  {cart[item.id] ? (
-                    <div className="flex items-center gap-4">
-                      <button
-                        onClick={() => removeItem(item.id)}
-                        className="w-10 h-10 rounded-full border border-outline-variant/20 flex items-center justify-center text-on-surface-variant hover:border-primary/40 transition-colors"
-                      >
-                        <span className="material-symbols-outlined text-base">remove</span>
-                      </button>
-                      <span className="font-serif text-xl text-on-surface w-6 text-center">{cart[item.id].qty}</span>
-                      <button
-                        onClick={() => addItem(item)}
-                        className="w-10 h-10 rounded-full bg-primary text-on-primary rounded-full flex items-center justify-center active:scale-90 transition-transform"
-                      >
-                        <span className="material-symbols-outlined text-base">add</span>
-                      </button>
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() => addItem(item)}
-                      className="w-full py-3.5 bg-gradient-to-tr from-primary to-primary-container text-on-primary rounded-xl font-medium text-sm tracking-wide flex items-center justify-center gap-2 active:scale-95 transition-all"
-                    >
-                      <span className="material-symbols-outlined text-sm">add</span>
-                      ADD TO ORDER
-                    </button>
+                    <p className="text-on-surface-variant text-xs leading-relaxed">{item.description}</p>
                   )}
                 </div>
+                {cart[item.id] ? (
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      onClick={() => removeItem(item.id)}
+                      className="w-8 h-8 rounded-full border border-outline-variant/30 flex items-center justify-center text-on-surface-variant"
+                    >
+                      <span className="material-symbols-outlined text-sm">remove</span>
+                    </button>
+                    <span className="font-bold text-sm text-on-surface w-5 text-center">{cart[item.id].qty}</span>
+                    <button
+                      onClick={() => addItem(item)}
+                      className="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center"
+                    >
+                      <span className="material-symbols-outlined text-sm">add</span>
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => addItem(item)}
+                    className="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 active:scale-90 transition-transform"
+                  >
+                    <span className="material-symbols-outlined text-sm">add</span>
+                  </button>
+                )}
               </div>
             ))}
           </section>
@@ -212,7 +222,7 @@ export default function RoomServicePage() {
             rows={3}
             className="w-full bg-surface-container-lowest border-b border-outline-variant/40 px-0 py-3 text-on-surface placeholder-on-surface-variant/50 text-sm focus:outline-none focus:border-primary transition-colors resize-none mb-2"
           />
-          <p className="text-xs text-on-surface-variant mb-8">Estimated delivery: ~20 minutes</p>
+          <p className="text-xs text-on-surface-variant mb-8">Estimated preparation time: ~45 minutes</p>
 
           <button
             onClick={handleSubmit}

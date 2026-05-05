@@ -6,47 +6,80 @@ export async function GET(request, { params }) {
 
   return Response.json({
     categories: [
-      { id: 'breakfast', name: 'Breakfast', items: [
-        { id: 'b1', name: 'Masala Dosa', price: 120, description: 'Crispy dosa with spiced potato filling' },
-        { id: 'b2', name: 'Idli Sambar (3 pcs)', price: 90, description: 'Steamed rice cakes with sambar and chutney' },
-        { id: 'b3', name: 'Poha', price: 80, description: 'Flattened rice with vegetables and spices' },
-        { id: 'b4', name: 'Continental Breakfast', price: 250, description: 'Toast, eggs, juice, and coffee' },
-        { id: 'b5', name: 'Omelette (2 eggs)', price: 100, description: 'Masala or plain' },
-      ]},
-      { id: 'lunch', name: 'Lunch', items: [
-        { id: 'l1', name: 'Veg Thali', price: 200, description: 'Rice, dal, 2 sabzi, roti, pickle, papad' },
-        { id: 'l2', name: 'Non-Veg Thali', price: 280, description: 'Rice, dal, chicken curry, roti, pickle' },
-        { id: 'l3', name: 'Curd Rice', price: 100, description: 'Tempered curd rice with pickle' },
-        { id: 'l4', name: 'Pulao', price: 150, description: 'Vegetable pulao with raita' },
-      ]},
-      { id: 'dinner', name: 'Dinner', items: [
-        { id: 'd1', name: 'Veg Biryani', price: 220, description: 'Aromatic basmati rice with vegetables' },
-        { id: 'd2', name: 'Chicken Biryani', price: 320, description: 'Aromatic basmati rice with tender chicken' },
-        { id: 'd3', name: 'Paneer Butter Masala + Roti (3)', price: 240, description: 'Rich tomato-based paneer gravy' },
-        { id: 'd4', name: 'Dal Makhani + Roti (3)', price: 180, description: 'Slow-cooked black lentils' },
-        { id: 'd5', name: 'Chicken Curry + Rice', price: 280, description: 'Spicy home-style chicken curry' },
-      ]},
-      { id: 'snacks', name: 'Snacks', items: [
-        { id: 's1', name: 'Samosa (2 pcs)', price: 60, description: 'Crispy pastry with spiced potato filling' },
-        { id: 's2', name: 'Spring Roll (2 pcs)', price: 80, description: 'Crispy vegetable spring rolls' },
-        { id: 's3', name: 'Vada Pav', price: 60, description: 'Mumbai-style potato fritter in a bun' },
-        { id: 's4', name: 'French Fries', price: 100, description: 'Salted or masala fries' },
-      ]},
-      { id: 'beverages', name: 'Beverages', items: [
-        { id: 'bv1', name: 'Filter Coffee', price: 50, description: 'South Indian filter coffee' },
-        { id: 'bv2', name: 'Masala Chai', price: 40, description: 'Spiced milk tea' },
-        { id: 'bv3', name: 'Fresh Lime Soda', price: 70, description: 'Sweet, salted, or plain' },
-        { id: 'bv4', name: 'Fresh Fruit Juice', price: 100, description: 'Orange, Mosambi, or Watermelon' },
-        { id: 'bv5', name: 'Mineral Water (1L)', price: 30 },
-        { id: 'bv6', name: 'Cold Coffee', price: 120, description: 'Blended cold coffee with milk' },
-      ]},
-      { id: 'minibar', name: 'Minibar', items: [
-        { id: 'm1', name: 'Coca Cola (330ml)', price: 60 },
-        { id: 'm2', name: 'Sprite (330ml)', price: 60 },
-        { id: 'm3', name: 'Bisleri Water (500ml)', price: 25 },
-        { id: 'm4', name: 'Lays Chips', price: 30 },
-        { id: 'm5', name: 'KitKat', price: 50 },
-      ]},
+      {
+        id: 'gravies',
+        name: 'Gravies & Dry Veg',
+        items: [
+          { id: 'g1', name: 'Paneer Butter Masala', price: 150, description: 'Rich, creamy tomato-based paneer curry' },
+          { id: 'g2', name: 'Dal Tadka',            price: 80,  description: 'Yellow lentils tempered with spices' },
+          { id: 'g3', name: 'Dal Fry',              price: 80,  description: 'Slow-cooked lentils with a smoky finish' },
+          { id: 'g4', name: 'Aloo Gobi',            price: 80,  description: 'Potato and cauliflower stir-fried with spices' },
+          { id: 'g5', name: 'Bhindi Masala',        price: 80,  description: 'Okra cooked with onions and spices' },
+          { id: 'g6', name: 'Mix Veg Curry',        price: 80,  description: 'Seasonal vegetables in a spiced gravy' },
+        ],
+      },
+      {
+        id: 'rice',
+        name: 'Rice Dishes',
+        items: [
+          { id: 'r1', name: 'Jeera Rice',   price: 80,  description: 'Steamed basmati rice tempered with cumin' },
+          { id: 'r2', name: 'Veg Pulao',    price: 150, description: 'Aromatic rice cooked with mixed vegetables' },
+          { id: 'r3', name: 'Lemon Rice',   price: 70,  description: 'Tangy rice with lemon, mustard, and curry leaves' },
+          { id: 'r4', name: 'Curd Rice',    price: 80,  description: 'Cooling tempered curd rice with pickle' },
+          { id: 'r5', name: 'Fried Rice',   price: 120, description: 'Wok-tossed vegetable fried rice' },
+          { id: 'r6', name: 'Steam Rice',   price: 60,  description: 'Plain steamed rice' },
+          { id: 'r7', name: 'Tomato Rice',  price: 90,  description: 'Tangy rice cooked with fresh tomatoes and spices' },
+        ],
+      },
+      {
+        id: 'breads',
+        name: 'Indian Breads',
+        items: [
+          { id: 'br1', name: 'Roti / Chapati', price: 15, description: 'Soft whole wheat flatbread' },
+          { id: 'br2', name: 'Plain Paratha',  price: 20, description: 'Layered whole wheat flatbread' },
+          { id: 'br3', name: 'Poori (2 pcs)',  price: 30, description: 'Deep-fried puffed wheat bread' },
+          { id: 'br4', name: 'Phulka',         price: 15, description: 'Thin, light whole wheat flatbread' },
+        ],
+      },
+      {
+        id: 'snacks',
+        name: 'Snacks',
+        items: [
+          { id: 's1', name: 'French Fries',     price: 70,  description: 'Crispy golden fries, salted or masala' },
+          { id: 's2', name: 'Onion Pakoda',      price: 50,  description: 'Crispy onion fritters with chutneys' },
+          { id: 's3', name: 'Paneer Pakoda',     price: 100, description: 'Golden fried paneer with spiced batter' },
+          { id: 's4', name: 'Maggi',             price: 50,  description: 'Classic Maggi noodles' },
+          { id: 's5', name: 'Veg Sandwich',      price: 60,  description: 'Grilled sandwich with fresh vegetables' },
+          { id: 's6', name: 'Paneer Sandwich',   price: 100, description: 'Grilled sandwich with spiced paneer filling' },
+          { id: 's7', name: 'Egg Sandwich',      price: 70,  description: 'Grilled sandwich with egg and seasoning' },
+          { id: 's8', name: 'Aloo Sandwich',     price: 50,  description: 'Grilled sandwich with spiced potato filling' },
+        ],
+      },
+      {
+        id: 'combo',
+        name: 'Combos',
+        items: [
+          { id: 'c1', name: 'Vegetarian Thali',    price: 200, description: 'Roti (4 pcs), Rice, 1 Dry Veg, 1 Veg Curry — Lunch / Dinner' },
+          { id: 'c2', name: 'Plain Paratha Combo',  price: 50,  description: '1 Plain Paratha served with curd' },
+          { id: 'c3', name: 'Aloo Paratha Combo',   price: 60,  description: '1 Aloo Paratha served with curd' },
+          { id: 'c4', name: 'Gobi Paratha Combo',   price: 65,  description: '1 Gobi Paratha served with curd' },
+          { id: 'c5', name: 'Onion Paratha Combo',  price: 75,  description: '1 Onion Paratha served with curd' },
+          { id: 'c6', name: 'Methi Paratha Combo',  price: 85,  description: '1 Methi Paratha served with curd' },
+          { id: 'c7', name: 'Paneer Paratha Combo', price: 95,  description: '1 Paneer Paratha served with curd' },
+          { id: 'c8', name: 'Puri & Sabji',         price: 125, description: '4 Puris with Aloo Sabji' },
+        ],
+      },
+      {
+        id: 'drinks',
+        name: 'Drinks',
+        items: [
+          { id: 'd1', name: 'Butter Milk',   price: 20, description: 'Chilled spiced buttermilk' },
+          { id: 'd2', name: 'Sweet Lassi',   price: 40, description: 'Thick chilled sweet yoghurt drink' },
+          { id: 'd3', name: 'Lemon Juice',   price: 20, description: 'Fresh squeezed lemon with sugar and salt' },
+          { id: 'd4', name: 'Tea',           price: 30, description: 'Hot masala or plain tea' },
+          { id: 'd5', name: 'Coffee',        price: 30, description: 'Hot filter or instant coffee' },
+        ],
+      },
     ],
   })
 }

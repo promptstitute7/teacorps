@@ -7,12 +7,13 @@ import Spinner from '@/components/ui/Spinner';
 import Link from 'next/link';
 
 const OPTIONS = [
-  { id: 'clean_room',         label: 'Clean my room now',  icon: 'cleaning_services' },
+  { id: 'clean_room',         label: 'Clean my room',       icon: 'cleaning_services' },
   { id: 'fresh_towels',       label: 'Fresh towels',        icon: 'dry' },
   { id: 'change_linen',       label: 'Change bed linen',    icon: 'bed' },
   { id: 'restock_toiletries', label: 'Restock toiletries',  icon: 'soap' },
+  { id: 'dental_kit',         label: 'Dental kit',          icon: 'dentistry' },
+  { id: 'slippers',           label: 'Slippers',            icon: 'footprint' },
   { id: 'dnd',                label: 'Do Not Disturb',      icon: 'do_not_disturb_on' },
-  { id: 'schedule',           label: 'Schedule cleaning',   icon: 'calendar_clock' },
 ];
 
 function GuestNav({ token, active }) {
@@ -52,7 +53,6 @@ export default function HousekeepingPage() {
   const { addTicket, setDnd } = useGuestStore();
 
   const [selected, setSelected] = useState(null);
-  const [scheduleTime, setScheduleTime] = useState('');
   const [note, setNote] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [ticket, setTicket] = useState(null);
@@ -71,9 +71,7 @@ export default function HousekeepingPage() {
 
     try {
       const option = OPTIONS.find((o) => o.id === selected);
-      const description = selected === 'schedule' && scheduleTime
-        ? `Schedule cleaning at ${scheduleTime}`
-        : note || option?.label;
+      const description = note || option?.label;
 
       const created = await guestApi.createTicket(token, {
         category: 'housekeeping',
@@ -170,15 +168,6 @@ export default function HousekeepingPage() {
             </button>
           );
         })}
-
-        {selected === 'schedule' && (
-          <input
-            type="time"
-            value={scheduleTime}
-            onChange={(e) => setScheduleTime(e.target.value)}
-            className="w-full bg-transparent border-b border-outline-variant/40 focus:border-primary py-3 text-on-surface focus:outline-none transition-colors"
-          />
-        )}
 
         <div className="pt-2">
           <p className="text-[10px] uppercase tracking-widest text-on-surface-variant font-label mb-2">Additional notes (optional)</p>

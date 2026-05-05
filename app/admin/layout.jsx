@@ -29,7 +29,7 @@ export default function AdminLayout({ children }) {
       {/* Sidebar */}
       <aside className="w-72 h-screen sticky top-0 bg-surface-container-low border-r border-outline-variant/15 flex flex-col px-6 py-8 z-50">
         <div className="mb-12">
-          <span className="text-2xl font-serif tracking-widest text-primary uppercase">TEA CORP</span>
+          <img src="/logo.jpg" alt="Tea Corps" className="h-10 w-10 object-contain" />
           <p className="text-[10px] font-label tracking-[0.2em] text-on-surface-variant uppercase mt-1">Management Console</p>
         </div>
 
