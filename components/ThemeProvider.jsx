@@ -15,7 +15,9 @@ export default function ThemeProvider({ children }) {
       document.documentElement.setAttribute('data-theme', theme);
     }
 
-    // Apply immediately on mount
+    // Apply immediately on mount — force light for preview, remove to re-enable auto
+    document.documentElement.setAttribute('data-theme', 'light');
+    return; // temporary override
     applyTheme();
 
     // Check every minute — switches exactly when the clock crosses 6am or 6pm

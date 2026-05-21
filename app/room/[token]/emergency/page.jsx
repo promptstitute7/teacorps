@@ -11,7 +11,7 @@ export default function EmergencyPage() {
   const { room, addTicket } = useGuestStore();
   const [triggered, setTriggered] = useState(null);
   const [loading, setLoading] = useState(false);
-  const hotelPhone = process.env.NEXT_PUBLIC_HOTEL_PHONE || '+91XXXXXXXXXX';
+  const hotelPhone = process.env.NEXT_PUBLIC_HOTEL_PHONE || '+918218016643';
 
   async function handleEmergency(type) {
     if (loading || triggered) return;
@@ -20,133 +20,82 @@ export default function EmergencyPage() {
       const created = await guestApi.createTicket(token, {
         category: 'emergency',
         subcategory: type === 'medical' ? 'Medical Emergency' : 'Fire Emergency',
-        description: `${type === 'medical' ? 'Medical' : 'Fire'} emergency reported from Room ${room?.roomNumber}`,
+        description: `${type === 'medical' ? 'Medical' : 'Fire'} emergency from Room ${room?.roomNumber}`,
         priority: 'emergency',
       });
-      addTicket(created);
-      setTriggered(type);
+      addTicket(created); setTriggered(type);
       window.location.href = `tel:${hotelPhone}`;
-    } catch (e) {
-      alert(e.message);
-    } finally {
-      setLoading(false);
-    }
+    } catch (e) { alert(e.message); }
+    finally { setLoading(false); }
   }
 
   return (
-    <div className="bg-surface font-body text-on-surface min-h-screen flex flex-col">
-
-      {/* Header */}
-      <header className="bg-background/80 backdrop-blur-xl flex justify-between items-center w-full px-6 py-4 fixed top-0 z-50">
-        <div className="flex items-center gap-3">
-          <button onClick={() => router.back()} className="text-on-surface-variant hover:text-primary transition-colors">
-            <span className="material-symbols-outlined">arrow_back</span>
+    <div className="min-h-screen flex flex-col bg-red-50">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-red-50/95 border-b border-red-200/50" style={{ backdropFilter: 'blur(16px)' }}>
+        <div className="flex items-center gap-4 px-5 py-4 max-w-lg mx-auto">
+          <button onClick={() => router.back()} className="w-8 h-8 rounded-full bg-white border border-red-200/60 flex items-center justify-center text-red-400 shadow-sm">
+            <span className="material-symbols-outlined text-[18px]">arrow_back</span>
           </button>
-          <div className="flex flex-col">
-            <span className="font-serif text-sm tracking-[0.2em] uppercase text-primary font-semibold">Tea Corp Hotels</span>
-            <h1 className="font-serif text-xl tracking-tight text-primary">Room {room?.roomNumber}</h1>
+          <div>
+            <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-red-400">Hotel Tea Square</p>
+            <h1 className="text-base font-semibold text-red-700 leading-tight">Emergency Response</h1>
           </div>
         </div>
-        <span className="material-symbols-outlined text-primary hover:opacity-80 cursor-pointer transition-opacity">notifications</span>
       </header>
 
-      <main className="flex-grow pt-24 pb-32 px-6 flex flex-col">
+      <main className="flex-grow pt-24 pb-36 px-5 max-w-lg mx-auto flex flex-col">
+        <p className="text-sm text-red-400/70 text-center mb-8 font-light">Rapid response team available 24/7.<br />Tap below to alert staff immediately.</p>
 
-        {/* Hero */}
-        <section className="mb-10 text-center">
-          <h2 className="font-serif text-3xl font-bold text-primary mb-4">Emergency Response</h2>
-          <p className="text-on-surface-variant text-lg leading-relaxed max-w-xs mx-auto">
-            Our rapid response team is standing by 24/7.
-          </p>
-        </section>
-
-        {/* Confirmation Banner */}
         {triggered && (
-          <div className="mb-6 p-4 bg-primary/10 border border-primary/20 rounded-xl text-center">
-            <span className="material-symbols-outlined text-primary text-2xl block mb-1" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-            <p className="text-primary font-semibold text-sm">Alert sent. Help is on the way.</p>
-            <p className="text-on-surface-variant text-xs mt-1">Staff have been notified and are en route to your room.</p>
+          <div className="mb-5 p-4 rounded-2xl bg-white border border-red-200/60 text-center shadow-sm">
+            <span className="material-symbols-outlined text-2xl block mb-1 text-red-500" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+            <p className="font-semibold text-sm text-red-700">Alert sent — help is on the way.</p>
+            <p className="text-xs text-red-400/70 mt-1 font-light">Staff are en route to your room.</p>
           </div>
         )}
 
-        {/* Emergency Cards */}
-        <div className="grid grid-cols-1 gap-6 mb-10">
-          {/* Medical */}
-          <button
-            onClick={() => handleEmergency('medical')}
-            disabled={loading || !!triggered}
-            className={`group relative flex flex-col items-center justify-center p-8 bg-surface-container-lowest rounded-xl border-2 transition-all duration-300 active:scale-95 shadow-[0_4px_24px_rgba(27,28,25,0.02)] ${
-              triggered === 'medical' ? 'border-primary' : 'border-primary/20 hover:border-primary'
-            } ${triggered && triggered !== 'medical' ? 'opacity-40' : ''}`}
-          >
-            <div className="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center mb-6">
-              <span className="material-symbols-outlined text-4xl text-on-surface-variant">medical_services</span>
+        <div className="space-y-4 mb-8">
+          <button onClick={() => handleEmergency('medical')} disabled={loading || !!triggered}
+            className={`w-full flex items-center gap-5 p-5 rounded-2xl border-2 transition-all active:scale-[0.98] bg-white ${triggered === 'medical' ? 'border-red-400' : 'border-red-200/60'} ${triggered && triggered !== 'medical' ? 'opacity-30' : ''}`}
+            style={{ boxShadow: '0 2px 12px rgba(220,38,38,0.08)' }}>
+            <div className="w-14 h-14 rounded-2xl bg-red-50 border border-red-100 flex items-center justify-center shrink-0">
+              <span className="material-symbols-outlined text-3xl text-red-500" style={{ fontVariationSettings: "'FILL' 1" }}>medical_services</span>
             </div>
-            <span className="font-serif text-xl font-semibold text-on-surface mb-1">Medical Emergency</span>
-            <span className="text-on-surface-variant text-xs uppercase tracking-widest font-medium">Immediate Assistance</span>
-            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
-              <span className="material-symbols-outlined text-primary">emergency</span>
+            <div className="text-left">
+              <p className="font-semibold text-base text-red-700">Medical Emergency</p>
+              <p className="text-xs text-red-400/70 mt-0.5 font-light">Immediate medical assistance</p>
             </div>
+            <span className="material-symbols-outlined text-[18px] text-red-300 ml-auto">chevron_right</span>
           </button>
 
-          {/* Fire */}
-          <button
-            onClick={() => handleEmergency('fire')}
-            disabled={loading || !!triggered}
-            className={`group relative flex flex-col items-center justify-center p-8 bg-surface-container-lowest rounded-xl border-2 transition-all duration-300 active:scale-95 shadow-[0_4px_24px_rgba(27,28,25,0.02)] ${
-              triggered === 'fire' ? 'border-primary' : 'border-primary/20 hover:border-primary'
-            } ${triggered && triggered !== 'fire' ? 'opacity-40' : ''}`}
-          >
-            <div className="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center mb-6">
-              <span className="material-symbols-outlined text-4xl" style={{ color: '#301c1c' }}>local_fire_department</span>
+          <button onClick={() => handleEmergency('fire')} disabled={loading || !!triggered}
+            className={`w-full flex items-center gap-5 p-5 rounded-2xl border-2 transition-all active:scale-[0.98] bg-white ${triggered === 'fire' ? 'border-orange-400' : 'border-orange-200/60'} ${triggered && triggered !== 'fire' ? 'opacity-30' : ''}`}
+            style={{ boxShadow: '0 2px 12px rgba(234,88,12,0.08)' }}>
+            <div className="w-14 h-14 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center shrink-0">
+              <span className="material-symbols-outlined text-3xl text-orange-500" style={{ fontVariationSettings: "'FILL' 1" }}>local_fire_department</span>
             </div>
-            <span className="font-serif text-xl font-semibold text-on-surface mb-1">Fire Emergency</span>
-            <span className="text-on-surface-variant text-xs uppercase tracking-widest font-medium">Evacuation Protocols</span>
-            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
-              <span className="material-symbols-outlined text-primary">emergency</span>
+            <div className="text-left">
+              <p className="font-semibold text-base text-orange-700">Fire Emergency</p>
+              <p className="text-xs text-orange-400/70 mt-0.5 font-light">Evacuation protocols activated</p>
             </div>
+            <span className="material-symbols-outlined text-[18px] text-orange-300 ml-auto">chevron_right</span>
           </button>
         </div>
 
-        {/* Direct Line */}
-        <div className="mt-auto">
-          <div className="p-6 bg-primary-container/10 rounded-xl border border-primary-container/20 flex flex-col items-center text-center">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse inline-block" />
-              <span className="text-xs font-label font-bold uppercase tracking-widest text-primary">Live Connection Available</span>
-            </div>
-            <button
-              onClick={() => { window.location.href = `tel:${hotelPhone}`; }}
-              className="w-full py-5 bg-gradient-to-r from-primary to-primary-container text-on-primary rounded-xl font-bold tracking-wide shadow-lg hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-3"
-            >
-              <span className="material-symbols-outlined">shield_person</span>
-              Direct Line to Security
-            </button>
-            <p className="mt-4 text-xs text-on-surface-variant italic">Average response time: Under 2 minutes</p>
+        <div className="mt-auto p-5 rounded-2xl bg-white border border-red-200/50 shadow-sm">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-red-500">Live Line Available 24/7</span>
           </div>
+          <button onClick={() => { window.location.href = `tel:${hotelPhone}`; }}
+            className="w-full py-4 rounded-xl font-semibold text-sm flex items-center justify-center gap-3 active:scale-[0.98] transition-all text-white"
+            style={{ background: 'rgb(185,28,28)', boxShadow: '0 4px 16px rgba(185,28,28,0.3)' }}>
+            <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>call</span>
+            Direct Line to Security
+          </button>
+          <p className="mt-3 text-center text-[11px] text-red-400/60 font-light">Average response time: under 2 minutes</p>
         </div>
       </main>
-
-      {/* Bottom Nav */}
-      <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-background/70 backdrop-blur-lg border-t border-outline-variant/15 shadow-ambient-up rounded-t-xl">
-        {[
-          { icon: 'home',         label: 'Home',      action: () => router.push(`/room/${token}`) },
-          { icon: 'room_service', label: 'Service',   action: () => router.push(`/room/${token}/service`) },
-          { icon: 'smart_toy',    label: 'Concierge', action: () => router.push(`/room/${token}/concierge`) },
-          { icon: 'emergency',    label: 'SOS',       action: null, active: true },
-        ].map((n) => (
-          <button
-            key={n.label}
-            onClick={n.action}
-            className={`flex flex-col items-center justify-center p-2 rounded-xl transition-colors ${
-              n.active ? 'bg-primary-container/10 text-primary' : 'text-on-surface-variant hover:bg-surface-container-low'
-            }`}
-          >
-            <span className="material-symbols-outlined mb-1" style={n.active ? { fontVariationSettings: "'FILL' 1" } : {}}>{n.icon}</span>
-            <span className="text-[10px] font-medium tracking-wide uppercase">{n.label}</span>
-          </button>
-        ))}
-      </nav>
     </div>
   );
 }

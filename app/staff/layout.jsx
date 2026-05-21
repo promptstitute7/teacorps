@@ -8,6 +8,7 @@ import { useStaffStore } from '@/store/staffStore';
 const NAV = [
   { href: '/staff',          icon: 'confirmation_number', label: 'Tickets'  },
   { href: '/staff/rooms',    icon: 'grid_view',            label: 'Rooms'    },
+  { href: '/staff/chat',     icon: 'chat',                label: 'Chat'     },
   { href: '/staff/my-tasks', icon: 'task_alt',             label: 'My Tasks' },
 ];
 

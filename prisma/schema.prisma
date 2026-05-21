@@ -21,6 +21,7 @@ model Room {
 
   reservations Reservation[]
   tickets      Ticket[]
+  messages     Message[]
 
   @@map("rooms")
 }
@@ -57,6 +58,7 @@ model Reservation {
   guest   Guest   @relation(fields: [guestId], references: [id])
   tickets Ticket[]
   nudgeLogs NudgeLog[]
+  messages  Message[]
 
   @@map("reservations")
 }
@@ -181,4 +183,20 @@ model SlaSettings {
   updatedAt   DateTime @updatedAt @map("updated_at")
 
   @@map("sla_settings")
+}
+
+model Message {
+  id            String    @id @default(uuid())
+  roomId        String    @map("room_id")
+  reservationId String    @map("reservation_id")
+  senderType    String    @map("sender_type")  // 'guest' | 'staff'
+  senderName    String?   @map("sender_name")
+  body          String
+  readAt        DateTime? @map("read_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  room        Room        @relation(fields: [roomId], references: [id])
+  reservation Reservation @relation(fields: [reservationId], references: [id])
+
+  @@map("messages")
 }

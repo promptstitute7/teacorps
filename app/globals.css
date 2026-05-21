@@ -2,15 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700&display=swap');
+/* fonts loaded via layout.jsx */
 
 /* ─────────────────────────────────────────────
-   LIGHT THEME — "The Ivory Steep" (6am–6pm)
-   RGB channels for Tailwind opacity-modifier support
+   LIGHT THEME — "The Ivory Steep"
    ───────────────────────────────────────────── */
 :root,
 [data-theme="light"] {
-  /* Off-white base */
   --c-background:           250 250 248;
   --c-surface:              255 255 255;
   --c-surface-lowest:       255 255 255;
@@ -18,38 +16,30 @@
   --c-surface-container:    238 244 239;
   --c-surface-high:         230 238 231;
   --c-surface-highest:      220 232 222;
-  /* Soft green primary */
-  --c-primary:              61 109 75;
+  --c-primary:              30 80 50;
   --c-primary-container:    168 213 181;
   --c-on-primary:           255 255 255;
-  --c-on-primary-container: 20 60 32;
-  /* Neutral text */
-  --c-on-surface:           28 32 28;
-  --c-on-surface-variant:   72 85 73;
-  --c-outline:              120 140 122;
+  --c-on-primary-container: 10 45 22;
+  --c-on-surface:           18 24 18;
+  --c-on-surface-variant:   55 72 57;
+  --c-outline:              100 128 104;
   --c-outline-variant:      196 218 198;
-  /* Error */
   --c-error:                186 26 26;
   --c-error-container:      255 218 214;
   --c-on-error:             255 255 255;
   --c-on-error-container:   147 0 10;
-  /* Gold/beige secondary */
-  --c-secondary:            160 128 64;
+  --c-secondary:            150 110 40;
   --c-secondary-container:  240 220 170;
-  --c-on-secondary-container: 90 68 10;
-  --c-secondary-fixed-dim:  210 180 110;
-  /* Tertiary */
-  --c-tertiary:             100 110 95;
-  --c-tertiary-container:   190 205 185;
-  --c-tertiary-fixed:       225 235 220;
-  --c-inverse-primary:      140 200 160;
+  --c-on-secondary-container: 70 48 0;
+  --c-secondary-fixed-dim:  200 165 90;
+  --c-tertiary:             80 95 82;
+  --c-tertiary-container:   185 200 188;
+  --c-tertiary-fixed:       220 232 222;
+  --c-inverse-primary:      130 190 150;
   --scrollbar-track: #eef4ef;
-  --scrollbar-thumb: #c4dac6;
+  --scrollbar-thumb: #b8d4bc;
 }
 
-/* ─────────────────────────────────────────────
-   DARK THEME — "The Midnight Concierge" (6pm–6am)
-   ───────────────────────────────────────────── */
 [data-theme="dark"] {
   --c-background:           19 19 19;
   --c-surface:              28 27 27;
@@ -58,26 +48,26 @@
   --c-surface-container:    37 37 36;
   --c-surface-high:         45 44 44;
   --c-surface-highest:      53 52 52;
-  --c-primary:              233 193 118;
-  --c-primary-container:    197 160 89;
-  --c-on-primary:           65 45 0;
-  --c-on-primary-container: 212 168 85;
+  --c-primary:              180 210 195;
+  --c-primary-container:    50 90 68;
+  --c-on-primary:           10 40 25;
+  --c-on-primary-container: 200 230 215;
   --c-on-surface:           229 226 225;
-  --c-on-surface-variant:   160 144 128;
+  --c-on-surface-variant:   170 160 150;
   --c-outline:              110 99 88;
   --c-outline-variant:      78 70 57;
-  --c-error:                255 68 68;
+  --c-error:                255 80 80;
   --c-error-container:      60 20 20;
   --c-on-error:             255 255 255;
-  --c-on-error-container:   255 180 180;
-  --c-secondary:            197 160 89;
-  --c-secondary-container:  92 69 24;
-  --c-on-secondary-container: 255 222 167;
-  --c-secondary-fixed-dim:  197 160 89;
-  --c-tertiary:             196 201 177;
-  --c-tertiary-container:   92 97 77;
-  --c-tertiary-fixed:       92 97 77;
-  --c-inverse-primary:      123 88 8;
+  --c-on-error-container:   255 190 190;
+  --c-secondary:            200 165 90;
+  --c-secondary-container:  88 68 22;
+  --c-on-secondary-container: 245 222 167;
+  --c-secondary-fixed-dim:  200 165 90;
+  --c-tertiary:             190 200 185;
+  --c-tertiary-container:   88 100 90;
+  --c-tertiary-fixed:       88 100 90;
+  --c-inverse-primary:      30 80 50;
   --scrollbar-track: #1c1b1b;
   --scrollbar-thumb: #353534;
 }
@@ -86,23 +76,29 @@
    BASE
    ───────────────────────────────────────────── */
 * { box-sizing: border-box; }
-
-html {
-  -webkit-tap-highlight-color: transparent;
-}
+html { -webkit-tap-highlight-color: transparent; }
 
 body {
   background-color: rgb(var(--c-background));
   color: rgb(var(--c-on-surface));
-  font-family: 'Manrope', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.8s ease, color 0.5s ease;
+  -moz-osx-font-smoothing: grayscale;
   min-height: 100dvh;
 }
 
 h1, h2, h3, h4, h5 {
-  font-family: 'Manrope', system-ui, sans-serif;
+  font-family: 'Playfair Display', Georgia, serif;
+  color: rgb(var(--c-on-surface));
 }
+
+/* ─────────────────────────────────────────────
+   FONT UTILITIES
+   ───────────────────────────────────────────── */
+.font-display { font-family: 'Playfair Display', Georgia, serif; }
+.font-serif   { font-family: 'Playfair Display', Georgia, serif; }
+.font-body    { font-family: 'Inter', system-ui, sans-serif; }
+.font-label   { font-family: 'Inter', system-ui, sans-serif; }
 
 /* ─────────────────────────────────────────────
    MATERIAL SYMBOLS
@@ -115,55 +111,52 @@ h1, h2, h3, h4, h5 {
 }
 
 /* ─────────────────────────────────────────────
-   UTILITIES
+   GLASS / BLUR
    ───────────────────────────────────────────── */
 .glass-nav {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 .glass-panel {
-  background: rgba(251, 249, 244, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 253, 250, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
-[data-theme="dark"] .glass-panel {
-  background: rgba(28, 27, 27, 0.85);
+/* ─────────────────────────────────────────────
+   GOLD DIVIDER
+   ───────────────────────────────────────────── */
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(var(--c-secondary) / 0.35), transparent);
 }
-
-.ghost-border {
-  border: 1px solid rgba(210, 197, 178, 0.15);
-}
-
-[data-theme="dark"] .ghost-border {
-  border: 1px solid rgba(78, 70, 57, 0.25);
-}
-
-.hide-scrollbar::-webkit-scrollbar { display: none; }
-.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* ─────────────────────────────────────────────
    SCROLLBAR
    ───────────────────────────────────────────── */
-::-webkit-scrollbar { width: 4px; height: 4px; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar  { display: none; }
+.no-scrollbar  { -ms-overflow-style: none; scrollbar-width: none; }
+::-webkit-scrollbar { width: 3px; height: 3px; }
 ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
 ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 2px; }
 
 /* ─────────────────────────────────────────────
    ANIMATIONS
    ───────────────────────────────────────────── */
-@keyframes slideInTop {
-  from { transform: translateY(-20px); opacity: 0; }
-  to   { transform: translateY(0);     opacity: 1; }
+@keyframes fadeUp {
+  from { transform: translateY(14px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
 }
-.animate-slideInTop { animation: slideInTop 0.3s ease-out; }
-.slide-in           { animation: slideInTop 0.3s ease-out; }
+.animate-fadeUp     { animation: fadeUp 0.4s cubic-bezier(0.16,1,0.3,1) both; }
+.slide-in           { animation: fadeUp 0.35s cubic-bezier(0.16,1,0.3,1) both; }
+.animate-slideInTop { animation: fadeUp 0.35s cubic-bezier(0.16,1,0.3,1) both; }
 
 @keyframes emergencyPulse {
-  0%,100% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.4); }
-  50%     { box-shadow: 0 0 0 12px rgba(255, 68, 68, 0); }
+  0%,100% { box-shadow: 0 0 0 0 rgba(186,26,26,0.4); }
+  50%     { box-shadow: 0 0 0 14px rgba(186,26,26,0); }
 }
 .emergency-pulse { animation: emergencyPulse 1.5s infinite; }
+.ghost-border { border: 1px solid rgb(var(--c-outline-variant) / 0.4); }

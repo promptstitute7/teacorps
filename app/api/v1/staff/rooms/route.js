@@ -14,7 +14,7 @@ export async function GET(request) {
       },
       reservations: {
         where: { status: 'active' },
-        include: { guest: { select: { name: true } } },
+        include: { guest: { select: { name: true, phone: true } } },
         take: 1,
       },
     },
