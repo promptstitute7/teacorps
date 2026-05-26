@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/authStore';
@@ -15,11 +15,21 @@ export default function AdminLayout({ children }) {
   const router = useRouter();
   const pathname = usePathname();
   const { token, staff, clearAuth } = useAuthStore();
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => { setHydrated(true); }, []);
 
   useEffect(() => {
+    if (!hydrated) return;
     if (!token && pathname !== '/admin/login') { router.replace('/admin/login'); return; }
     if (token && staff && !['manager', 'admin'].includes(staff.role)) router.replace('/admin/login');
-  }, [token, staff, pathname]);
+  }, [token, staff, pathname, hydrated]);
+
+  if (!hydrated && pathname !== '/admin/login') return (
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="w-6 h-6 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+    </div>
+  );
 
   if (!token || pathname === '/admin/login') return <>{children}</>;
 

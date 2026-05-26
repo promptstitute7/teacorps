@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useAuthStore } from '@/store/authStore';
 import { useStaffStore } from '@/store/staffStore';
 
+// Prevents redirect-to-login before Zustand persist hydrates from localStorage
+
 const NAV = [
   { href: '/staff',          icon: 'confirmation_number', label: 'Tickets'  },
   { href: '/staff/rooms',    icon: 'grid_view',            label: 'Rooms'    },
@@ -23,6 +25,9 @@ export default function StaffLayout({ children }) {
   const { token, staff, clearAuth } = useAuthStore();
   const { soundEnabled, toggleSound } = useStaffStore();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => { setHydrated(true); }, []);
 
   function handleLogout() {
     clearAuth();
@@ -31,8 +36,17 @@ export default function StaffLayout({ children }) {
   }
 
   useEffect(() => {
+    if (!hydrated) return;
     if (!token && pathname !== '/staff/login') router.replace('/staff/login');
-  }, [token, pathname]);
+  }, [token, pathname, hydrated]);
+
+  // While Zustand is hydrating from localStorage, show a blank loading screen
+  // (avoids false redirect to login before token is restored)
+  if (!hydrated && pathname !== '/staff/login') return (
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="w-6 h-6 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+    </div>
+  );
 
   if (!token || pathname === '/staff/login') return <>{children}</>;
 

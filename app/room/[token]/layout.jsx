@@ -105,13 +105,21 @@ function StayEndedScreen({ onRetry }) {
 export default function RoomLayout({ children }) {
   const params = useParams();
   const token = params.token;
-  const { session, setSession, clearSession, setRoom, updateTicketStatus } = useGuestStore();
+  const { session, room, setSession, clearSession, setRoom, updateTicketStatus, addTicket, setTickets } = useGuestStore();
 
   // 'loading' | 'verify' | 'ended' | 'ready'
   const [status, setStatus] = useState('loading');
 
+  // ── Hydration gate ──────────────────────────────────────────────────────────
+  // Zustand persist loads from localStorage asynchronously after first render.
+  // We must wait for it before checking session, otherwise `session` appears
+  // null and we show the verify screen even for valid returning guests.
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => { setHydrated(true); }, []);
+
+  // ── Session check ───────────────────────────────────────────────────────────
   useEffect(() => {
-    let channel = null;
+    if (!hydrated) return;
 
     async function checkSession() {
       // No session, or session belongs to a different room
@@ -132,9 +140,6 @@ export default function RoomLayout({ children }) {
         await guestApi.verifyPhone(token, session.phone);
         const { room, reservation } = await guestApi.getRoom(token);
         setRoom(room, reservation);
-        channel = subscribeToGuestTickets(room.id, {
-          onUpdate: (ticket) => updateTicketStatus(ticket.id, ticket.status),
-        });
         setStatus('ready');
       } catch {
         clearSession();
@@ -143,9 +148,29 @@ export default function RoomLayout({ children }) {
     }
 
     checkSession();
-    return () => unsubscribe(channel);
-  }, [token]);
+  }, [token, hydrated]);
 
+  // ── Realtime ticket subscription ────────────────────────────────────────────
+  // Runs whenever the portal becomes ready (works for both returning sessions
+  // and fresh phone verifications). Handles status updates AND new ticket inserts.
+  useEffect(() => {
+    if (status !== 'ready' || !room?.id) return;
+
+    const channel = subscribeToGuestTickets(room.id, {
+      onUpdate: (ticket) => updateTicketStatus(ticket.id, ticket.status),
+      onInsert: async () => {
+        // Refetch tickets so the "My Requests" page updates in real-time
+        try {
+          const data = await guestApi.getRoomTickets(token);
+          setTickets(data);
+        } catch { /* non-fatal */ }
+      },
+    });
+
+    return () => unsubscribe(channel);
+  }, [status, room?.id]);
+
+  // ── Handle fresh phone verification ────────────────────────────────────────
   async function handleVerified(sessionData) {
     const newSession = {
       roomToken: token,
